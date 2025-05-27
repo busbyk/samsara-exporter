@@ -14,6 +14,15 @@ async function retrieveAndLogAssets(env: Env) {
 
 export default {
 	async fetch(req, env) {
+		// Check for API key in Authorization header
+		const authHeader = req.headers.get('Authorization');
+		if (!authHeader || authHeader !== `Bearer ${env.API_KEY}`) {
+			return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+				status: 401,
+				headers: { 'Content-Type': 'application/json' }
+			});
+		}
+
 		const url = new URL(req.url);
 		
 		// Handle GET requests for asset retrieval
