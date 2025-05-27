@@ -4,7 +4,7 @@ export default {
 	async fetch(req) {
 		const url = new URL(req.url);
 		url.pathname = '/__scheduled';
-		url.searchParams.append('cron', '* * * * *');
+		url.searchParams.append('cron', '0 * * * *');
 		return new Response(`To test the scheduled handler, ensure you have used the "--test-scheduled" then try running "curl ${url.href}".`);
 	},
 
@@ -16,6 +16,7 @@ export default {
 			console.log(
 				`Retrieved ${vehicles?.length ?? 0} vehicles, ${trailers?.length ?? 0} trailers, ${equipment?.length ?? 0} equipment from Samsara.`
 			);
+			console.log('All assets: ', JSON.stringify(assets, null, 2));
 		} catch (error) {
 			console.error('Failed to get all assets from Samsara: ', error);
 		}
